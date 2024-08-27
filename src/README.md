@@ -7,8 +7,8 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-##　Atte
-    勤怠管理システム
+##　Atte <br/>
+    勤怠管理システム<br/>
     ログイン後、勤務時間開始・終了と休憩時間の開始・終了を管理します。
     
 
