@@ -15,7 +15,9 @@ use App\Http\Controllers\RegisteredUserController;
 |
 */
 
-Route::post('/login',[AuthenticatedSessionController::class,'store']);
+Route::post('/login',[AuthenticatedSessionController::class,'store'])->name('login');
 Route::post('/register',[RegisteredUserController::class,'store'])->name('register');
 Route::get('/',[TimestampsController::class,'index'])->middleware('verified');
 Route::get('/logout',[AuthenticatedSessionController::class,'destroy'])->middleware('auth')->name('logout');
+
+Route::post('/',[TimestampsController::class,'punch'])->name('punch');

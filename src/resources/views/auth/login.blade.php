@@ -16,7 +16,7 @@
         </span>
     </div>
 
-    <form class="form__wrap" action="/login" method="post">
+    <form class="form__wrap" action="{{ route('login') }}" method="post">
         @csrf
         <div class="form__item">
             <input class="form__input" type="email" name="email" placeholder="メールアドレス">
