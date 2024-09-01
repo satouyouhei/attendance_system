@@ -34,7 +34,7 @@
                         <a class="header__item-link" href="">勤怠表</a>
                     </li>
                     <li class="header__right-item">
-                        <a class="header__item-link" href="/logout">ログアウト</a>
+                        <a class="header__item-link" href="{{ route('logout') }}">ログアウト</a>
                     </li>
                 </ul>
             </div>

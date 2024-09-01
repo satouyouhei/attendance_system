@@ -6,9 +6,9 @@
 @endsection
 
 @section('content')
-    @if (session('message'))
+    @if (isset($message))
         <div class="register__message">
-            <span class="register__message-text">{{ session('message') }}</span>
+            <span class="register__message-text">{{ $message }}</span>
         </div>
     @endif
     <div class="header__wrap">
@@ -17,7 +17,7 @@
         </span>
     </div>
 
-    <form class="form__wrap" action="{{ route('register') }}" method="post">
+    <form class="form__wrap" action="/register" method="post">
         @csrf
         <div class="form__content">
             <div class="form__item">

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\TimestampsController;
-
+use App\Http\Controllers\RegisteredUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +15,7 @@ use App\Http\Controllers\TimestampsController;
 |
 */
 
-Route::middleware('auth')->group(function(){
-    Route::middleware('verified')->group(function(){
-        Route::get('/',[TimestampsController::class,'index']);
-    });
-});
+Route::post('/login',[AuthenticatedSessionController::class,'store']);
+Route::post('/register',[RegisteredUserController::class,'store'])->name('register');
+Route::get('/',[TimestampsController::class,'index'])->middleware('verified');
+Route::get('/logout',[AuthenticatedSessionController::class,'destroy'])->middleware('auth')->name('logout');

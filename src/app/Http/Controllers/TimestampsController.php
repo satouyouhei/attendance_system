@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Work;
+use App\Models\Timestamp;
 use App\Models\Rest;
 
 use Illuminate\Pagination\Paginator;

@@ -15,6 +15,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'scene' => 0,
         ]);
         $message = "会員登録が完了しました";
         return view('auth.register', compact('message'));

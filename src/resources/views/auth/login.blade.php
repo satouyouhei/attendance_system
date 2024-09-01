@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-    @if (session('message'))
+    @if (isset($message))
         <div class="login-error__message">
-            <span class="login-error__message-text">{{ session('message') }}</span>
+            <span class="login-error__message-text">{{ $message }}</span>
         </div>
     @endif
     <div class="header__wrap">
