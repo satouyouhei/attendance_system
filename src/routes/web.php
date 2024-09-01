@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\TimestampsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function(){
+    Route::middleware('verified')->group(function(){
+        Route::get('/',[TimestampsController::class,'index']);
+    });
 });
