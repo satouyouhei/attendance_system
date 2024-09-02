@@ -19,7 +19,7 @@ class Timestamp extends Model
     ];
 
     public function rests(){
-        return hasMany(Rest::class);
+        return $this->hasMany(Rest::class);
     }
 
     public function user(){

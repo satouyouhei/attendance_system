@@ -66,13 +66,13 @@ class TimestampsController extends Controller
         };
 
         if($request->has('breakOut')){
-            
+
             $rest = Rest::where('timestamp_id',$timestamp->id)->whereDate('created_at', $now_date)->latest()->first();
             $rest_start = new Carbon($rest->rest_start);
             $restTime = $rest_start->diffInSeconds($now);
 
             $rest->update([
-                'rest_end' => $now_date,
+                'rest_end' => $now_time,
                 'restTime' => $restTime,
             ]);
 
@@ -104,7 +104,7 @@ class TimestampsController extends Controller
             $work_total = $work_total_hour . ':' . $work_total_min . ':' . $work_total_sec;
 
             $timestamp->update([
-                'punchOut' => $now,
+                'punchOut' => $now_time,
                 'work_total' => $work_total,
                 'rest_total' => $rest_total,
             ]);

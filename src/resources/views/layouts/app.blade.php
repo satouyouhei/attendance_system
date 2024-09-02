@@ -25,13 +25,13 @@
                         <a class="header__item-link" href="/">ホーム</a>
                     </li>
                     <li class="header__right-item">
-                        <a class="header__item-link" href="">日付一覧</a>
+                        <a class="header__item-link" href="{{ route('attendance/date') }}">日付一覧</a>
                     </li>
                     <li class="header__right-item">
-                        <a class="header__item-link" href="">ユーザー一覧</a>
+                        <a class="header__item-link" href="{{ route('user')}}">ユーザー一覧</a>
                     </li>
                     <li class="header__right-item">
-                        <a class="header__item-link" href="">勤怠表</a>
+                        <a class="header__item-link" href="{{ route('attendance/user')}}">勤怠表</a>
                     </li>
                     <li class="header__right-item">
                         <a class="header__item-link" href="{{ route('logout') }}">ログアウト</a>
