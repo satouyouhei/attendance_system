@@ -49,7 +49,9 @@ class AttendanceController extends Controller
             'displayUser' => $displayUser,
         );
 
-        return view('attendance_user', compact('timestamps', 'data'));
+        $timestamps ->appends($data);
+
+        return view('attendance_user', compact('timestamps', 'data' ));
     }
 
     public function perUser(Request $request)
@@ -67,7 +69,8 @@ class AttendanceController extends Controller
             'userList' => $userList,
             'displayUser' => $displayUser,
         );
-        $timestamps ->appends($data);
+
+        $timestamps ->appends($params);
 
         return view('attendance_user', compact('timestamps','data'));
     }
@@ -85,7 +88,7 @@ class AttendanceController extends Controller
     {
         $displayDate = Carbon::now();
         $searchScene = $request->input('scene');
-        if($searchScene == 3 || !($searchScene)){
+        if($searchScene == 3 || !isset($searchScene)){
             $users = User::paginate(5);
         }else{
         $users = User::where('scene', $searchScene)->paginate(5);

@@ -12,7 +12,7 @@
             <input class="search__input" type="text" name="search_name" placeholder="名前検索" value="{{ $searchParams['name'] ?? '' }}" list="user_list">
             <datalist id="user_list">
                 @if($data['params']['userList'])
-                    @foreach($data['params']['userList'] as $user)
+                    @foreach( $data['params']['userList'] as $user)
                         <option value="{{ $user->name }}">{{ $user->name }}</option>
                     @endforeach
                 @endif
@@ -40,6 +40,6 @@
                 </tr>
             @endforeach
         </table>
-        {{ $timestamps->appends(request()->input())->links('vendor.pagination.bootstrap-4') }}
+        {{ $timestamps->links('vendor.pagination.bootstrap-4') }}
     </div>
 @endsection

@@ -2,7 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/attendance.css') }}">
-    <link rel="stylesheet" href="/css/app.css">
+    <!-- <link rel="stylesheet" href="/css/app.css"> -->
 @endsection
 
 @section('content')
@@ -33,6 +33,6 @@
                 </tr>
             @endforeach
         </table>
-        {{ $timestamps->appends(request()->all())->links('vendor.pagination.bootstrap-4') }}
+        {{ $timestamps->appends(['displayDate' => $displayDate])->links('vendor.pagination.bootstrap-4') }}
     </div>
 @endsection
