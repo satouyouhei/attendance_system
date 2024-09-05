@@ -4,6 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\TimestampJob;
+use Illuminate\Support\Facades\Auth;
+use App\models\User;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +18,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $count = Auth::all()->count();
+        $id = rand( 0, $count ) + 1;
+        $schedule->call(function() use ($id)
+        {
+            $user = Auth::find($id);
+            TimestampJob::dispatch($user)->delay(now()->addMinutes(5));
+        });
+
     }
 
     /**
@@ -29,4 +39,5 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
 }

@@ -19,8 +19,6 @@ class CreateTimestampsTable extends Migration
             $table->date('date_work');
             $table->time('punchIn');
             $table->time('punchOut')->nullable();
-            $table->string('work_total')->nullable();
-            $table->string('rest_total')->nullable();
             $table->timestamps();
         });
     }

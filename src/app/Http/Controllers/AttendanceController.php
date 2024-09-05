@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Timestamp;
 use App\Models\Rest;
@@ -15,7 +16,7 @@ class AttendanceController extends Controller
     public function indexDate(Request $request)
     {   
         $displayDate = Carbon::now();
-        $timestamps = Timestamp::whereDate('date_work', $displayDate)->paginate(5);
+        $timestamps = DB::table('timestamps_view_table')->whereDate('date_work',$displayDate)->paginate(5);
 
         return view('attendance_date', compact('timestamps', 'displayDate'));
     }
@@ -33,7 +34,7 @@ class AttendanceController extends Controller
             $date_work = $date_work->addDay();
         }
         $displayDate = $date_work;
-        $timestamps = Timestamp::whereDate('date_work', $displayDate)->paginate(5);
+        $timestamps = DB::table('timestamps_view_table')->whereDate('date_work',$displayDate)->paginate(5);
         return view('attendance_date', compact('timestamps','displayDate'));
     }
 
@@ -41,17 +42,10 @@ class AttendanceController extends Controller
     {
         $displayUser = Auth::user()->name;
         $user_id = Auth::user()->id;
-        $timestamps = Timestamp::where('user_id', $user_id)->paginate(5);
+        $timestamps = DB::table('timestamps_view_table')->where('name',$displayUser)->paginate(5);
         $userList = User::all();
 
-        $data['params'] = array(
-            'userList' => $userList,
-            'displayUser' => $displayUser,
-        );
-
-        $timestamps ->appends($data);
-
-        return view('attendance_user', compact('timestamps', 'data' ));
+        return view('attendance_user', compact('timestamps', 'userList','displayUser'));
     }
 
     public function perUser(Request $request)
@@ -59,20 +53,11 @@ class AttendanceController extends Controller
         $searchName = $request->input('search_name');
         $user = User::where('name', $searchName)->first();
         $displayUser = $user->name;
-        $user_id = $user->id;
 
-        $timestamps = Timestamp::where('user_id', $user_id)->paginate(5);
-
+        $timestamps = DB::table('timestamps_view_table')->where('name',$displayUser)->paginate(5);
         $userList = User::all();
 
-        $data['params'] = array(
-            'userList' => $userList,
-            'displayUser' => $displayUser,
-        );
-
-        $timestamps ->appends($params);
-
-        return view('attendance_user', compact('timestamps','data'));
+        return view('attendance_user', compact('timestamps','displayUser','userList'));
     }
 
     public function user()

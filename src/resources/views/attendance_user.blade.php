@@ -3,16 +3,17 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/attendance.css') }}">
     <link rel="stylesheet" href="{{ asset('css/attendance_search.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 @endsection
 @section('content')
     <form class="header__wrap" action="{{ route('per/user') }}" method="post">
         @csrf
-            <p class="header__text">{{ $data['params']['displayUser'] }} さんの勤怠表</p>
+            <p class="header__text">{{ $displayUser }} さんの勤怠表</p>
         <div class="search__item">
             <input class="search__input" type="text" name="search_name" placeholder="名前検索" value="{{ $searchParams['name'] ?? '' }}" list="user_list">
             <datalist id="user_list">
-                @if($data['params']['userList'])
-                    @foreach( $data['params']['userList'] as $user)
+                @if($userList)
+                    @foreach( $userList as $user)
                         <option value="{{ $user->name }}">{{ $user->name }}</option>
                     @endforeach
                 @endif
@@ -40,6 +41,7 @@
                 </tr>
             @endforeach
         </table>
-        {{ $timestamps->links('vendor.pagination.bootstrap-4') }}
+        {{ $timestamps->
+            links('vendor.pagination.bootstrap-4') }}
     </div>
 @endsection

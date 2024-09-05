@@ -2,7 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/attendance.css') }}">
-    <!-- <link rel="stylesheet" href="/css/app.css"> -->
+    <link rel="stylesheet" href="src/resources/css/app.css">
 @endsection
 
 @section('content')
@@ -25,7 +25,7 @@
             </tr>
             @foreach ($timestamps as $timestamp)
                 <tr class="table__row">
-                    <td class="table__item">{{ $timestamp->user->name }}</td>
+                    <td class="table__item">{{ $timestamp->name }}</td>
                     <td class="table__item">{{ $timestamp->punchIn }}</td>
                     <td class="table__item">{{ $timestamp->punchOut }}</td>
                     <td class="table__item">{{ $timestamp->rest_total }}</td>
