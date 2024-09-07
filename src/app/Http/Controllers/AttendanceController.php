@@ -9,63 +9,78 @@ use App\Models\User;
 use App\Models\Timestamp;
 use App\Models\Rest;
 use Illuminate\Pagination\paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 
 class AttendanceController extends Controller
 {
-    public function indexDate(Request $request)
-    {   
-        $displayDate = Carbon::now();
-        $timestamps = DB::table('timestamps_view_table')->whereDate('date_work',$displayDate)->paginate(5);
 
-        return view('attendance_date', compact('timestamps', 'displayDate'));
-    }
+    public function searchDate(Request $request){
 
-    public function perDate(Request $request)
-    {   
-        $date = $request->input('displayDate');
-        $date_work = Carbon::parse($date);
+        $date=$request->input('displayDate');
+        $conditions = [];
+        if($date){
+            $date= Carbon::parse($date);
 
-        if ($request->has('prevDate')) {
-           $date_work = $date_work->subDay();
+            if ($request->has('prevDate')) {
+               $date= $date->subDay();
+            }
+            if ($request->has('nextDate')) {
+                $date = $date->addDay();
+            }
+
+        }else{
+            $date = Carbon::now();
         }
+        $displayDate=$date;
+        $conditions[]=['date_work',$date->format('Y-m-d')];
+        $append_param['displayDate']= $displayDate->format('Y-m-d');
+        $timestamps = DB::table('timestamps_view_table')->where($conditions);
+        $timestamps_list= $timestamps->paginate(5);
+        $timestamps_list->appends($append_param);
 
-        if ($request->has('nextDate')) {
-            $date_work = $date_work->addDay();
-        }
-        $displayDate = $date_work;
-        $timestamps = DB::table('timestamps_view_table')->whereDate('date_work',$displayDate)->paginate(5);
-        return view('attendance_date', compact('timestamps','displayDate'));
+        return view('attendance_date' ,compact('timestamps_list','append_param'));
     }
 
-    public function indexUser()
+    public function searchUser(Request $request)
     {
-        $displayUser = Auth::user()->name;
-        $user_id = Auth::user()->id;
-        $timestamps = DB::table('timestamps_view_table')->where('name',$displayUser)->paginate(5);
-        $userList = User::all();
-
-        return view('attendance_user', compact('timestamps', 'userList','displayUser'));
-    }
-
-    public function perUser(Request $request)
-    {
+        $displayUser = "";
         $searchName = $request->input('search_name');
-        $user = User::where('name', $searchName)->first();
-        $displayUser = $user->name;
+        $displayUser = $request->displayUser;
+        if($searchName){
 
-        $timestamps = DB::table('timestamps_view_table')->where('name',$displayUser)->paginate(5);
+        $user = User::where('name',$searchName)->first();
+        $displayUser = $user ? $user->name : null;
+
+        $timestamps = DB::table('timestamps_view_table')
+            ->where('name', $displayUser)
+            ->paginate(2);
+        $timestamps->appends(['displayUser'=>$displayUser]);
+
+        }elseif($displayUser){
+
+            $timestamps = DB::table('timestamps_view_table')
+            ->where('name', $displayUser)
+            ->paginate(2);
+        $timestamps->appends(['displayUser'=>$displayUser]);
+
+        }else{
+
+        $displayUser = Auth::user()->name;
+        $timestamps = DB::table('timestamps_view_table')
+            ->where('name', $displayUser)
+            ->paginate(2);
+        }
+
         $userList = User::all();
-
-        return view('attendance_user', compact('timestamps','displayUser','userList'));
+        return view('attendance_user', compact('timestamps', 'displayUser', 'userList'));
     }
 
     public function user()
     {
-        $users = User::paginate(5);
+        $users = User::paginate(2);
         $displayDate = Carbon::now();
         $searchScene = 0;
-
         return view('user', compact('users', 'displayDate','searchScene'));
     }
 
@@ -74,10 +89,19 @@ class AttendanceController extends Controller
         $displayDate = Carbon::now();
         $searchScene = $request->input('scene');
         if($searchScene == 3 || !isset($searchScene)){
-            $users = User::paginate(5);
+            $users = User::paginate(2);
         }else{
-        $users = User::where('scene', $searchScene)->paginate(5);
+            $users = User::where('scene', $searchScene)->paginate(2);
         }
         return view('user', compact('users','displayDate'));
+    }
+
+    private function getSearchQuery($request, $query)
+    {
+        $query->where(function($q) use ($request){
+            $q->where('name', $request->search_name);
+        });
+
+        return $query;
     }
 }

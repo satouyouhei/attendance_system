@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/attendance.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user.css') }}">
     <link rel="stylesheet" href="{{ asset('css/attendance_search.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
 @endsection
 
 @section('content')
@@ -23,7 +24,7 @@
         </div>
     </form>
     <div class="table__wrap">
-        <table class="attendance__table">
+        <table class="timestamps__table">
             <tr class="table__row">
                 <th class="table__header">No.</th>
                 <th class="table__header">ID</th>
@@ -53,6 +54,6 @@
                 @endphp
             @endforeach
         </table>
-        {{ $users->appends(request()->input())->links() }}
+        {{ $users->appends(request()->input())->links('vendor.pagination.custom') }}
     </div>
 @endsection
