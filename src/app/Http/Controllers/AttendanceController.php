@@ -54,14 +54,14 @@ class AttendanceController extends Controller
 
         $timestamps = DB::table('timestamps_view_table')
             ->where('name', $displayUser)
-            ->paginate(2);
+            ->paginate(5);
         $timestamps->appends(['displayUser'=>$displayUser]);
 
         }elseif($displayUser){
 
             $timestamps = DB::table('timestamps_view_table')
             ->where('name', $displayUser)
-            ->paginate(2);
+            ->paginate(5);
         $timestamps->appends(['displayUser'=>$displayUser]);
 
         }else{
@@ -69,7 +69,7 @@ class AttendanceController extends Controller
         $displayUser = Auth::user()->name;
         $timestamps = DB::table('timestamps_view_table')
             ->where('name', $displayUser)
-            ->paginate(2);
+            ->paginate(5);
         }
 
         $userList = User::all();
@@ -78,7 +78,7 @@ class AttendanceController extends Controller
 
     public function user()
     {
-        $users = User::paginate(2);
+        $users = User::paginate(5);
         $displayDate = Carbon::now();
         $searchScene = 0;
         return view('user', compact('users', 'displayDate','searchScene'));
@@ -89,19 +89,11 @@ class AttendanceController extends Controller
         $displayDate = Carbon::now();
         $searchScene = $request->input('scene');
         if($searchScene == 3 || !isset($searchScene)){
-            $users = User::paginate(2);
+            $users = User::paginate(5);
         }else{
-            $users = User::where('scene', $searchScene)->paginate(2);
+            $users = User::where('scene', $searchScene)->paginate(5);
         }
         return view('user', compact('users','displayDate'));
     }
 
-    private function getSearchQuery($request, $query)
-    {
-        $query->where(function($q) use ($request){
-            $q->where('name', $request->search_name);
-        });
-
-        return $query;
-    }
 }

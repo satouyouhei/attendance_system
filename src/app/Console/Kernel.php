@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() use ($id)
         {
             $user = Auth::find($id);
-            TimestampJob::dispatch($user)->delay(now()->addMinutes(5));
+            TimestampJob::dispatch($user)->delay();
         });
 
     }
