@@ -21,9 +21,7 @@ class TimestampFactory extends Factory
             'date_work' => $dummyDate->format('Y-m-d'),
             'punchIn' => $dummyDate->format('H:i:s'),
             'punchOut' => $dummyDate->modify('+9hour')->format('H:i:s'),
-            'user_id' => function () {
-                return User::factory()->create()->id;
-            },
+            'user_id' => $this->faker->numberBetween(1,30),
         ];
     }
 }
