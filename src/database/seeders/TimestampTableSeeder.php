@@ -16,6 +16,6 @@ class TimestampTableSeeder extends Seeder
      */
     public function run()
     {
-        Timestamp::factory()->count(300)->create();
+        Timestamp::factory()->count(400)->create();
     }
 }
