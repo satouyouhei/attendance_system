@@ -18,10 +18,11 @@ use App\Http\Controllers\AttendanceController;
 
 Route::post('/login',[AuthenticatedSessionController::class,'store'])->name('login');
 Route::post('/register',[RegisteredUserController::class,'store'])->name('register');
-Route::get('/',[TimestampsController::class,'index'])->middleware('verified');
 Route::get('/logout',[AuthenticatedSessionController::class,'destroy'])->middleware('auth')->name('logout');
 
+Route::get('/',[TimestampsController::class,'index'])->middleware('verified');
 Route::post('/',[TimestampsController::class,'punch'])->name('punch');
+
 Route::get('/attendance', [AttendanceController::class, 'searchDate'])->name('attendance/date');
 Route::post('/attendance', [AttendanceController::class, 'searchDate'])->name('attendance/date');
 Route::get('/attendance/user',[AttendanceController::class,'searchUser'])->name('attendance/user');
